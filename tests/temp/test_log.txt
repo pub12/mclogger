@@ -1,4 +1,4 @@
-[34m2022-03-20 01:43:48,875 [test_logger.py:17 - test_create_logger() ] [DEBUG] [0mhello world - debug
-[36m2022-03-20 01:43:48,875 [test_logger.py:18 - test_create_logger() ] [INFO ] [0mhello world - info
-[31m2022-03-20 01:43:48,876 [test_logger.py:19 - test_create_logger() ] [ERROR] [0mhello world - error
-[33m2022-03-20 01:43:48,876 [test_logger.py:20 - test_create_logger() ] [WARNI] [0mhello world - warning
+[34m2022-03-20 04:47:43,911 [test_logger.py:17 - test_create_logger() ] [DEBUG] [0mhello world - debug
+[36m2022-03-20 04:47:43,912 [test_logger.py:18 - test_create_logger() ] [INFO ] [0mhello world - info
+[31m2022-03-20 04:47:43,912 [test_logger.py:19 - test_create_logger() ] [ERROR] [0mhello world - error
+[33m2022-03-20 04:47:43,912 [test_logger.py:20 - test_create_logger() ] [WARNI] [0mhello world - warning

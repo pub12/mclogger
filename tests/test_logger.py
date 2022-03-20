@@ -2,17 +2,17 @@ import unittest
 import os
 
 import sys
-sys.path.insert(0, '../multi_logger/')
+sys.path.insert(0, '../mclogger/')
 
 
-from multi_logger import MultiLogger
+from mclogger import MCLogger
 
 class TestLogger(unittest.TestCase):
 
 	def test_create_logger(self):
 		filename = 'temp/test_log.txt'
 		os.remove( filename )
-		logger = MultiLogger(filename).getLogger()
+		logger = MCLogger(filename).getLogger()
 
 		logger.debug("hello world - debug")
 		logger.info("hello world - info")
