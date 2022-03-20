@@ -37,19 +37,18 @@ Output will be:
 ### Class Methods overview
 
 - #### getLogger(filename):
-	- Generates the log instance which can be called with .debug( message ); .info( message ); .error( message ); .info( message ) which will be displayed in color format.
+	Generates the log instance which can be called with .debug(*message*); .info(*message*); .error(*message*); .info(*message*) which will be displayed in color format.
 
-	- Format of the output message will be:
-		"`<`current server timestamp`>` `[<`Filename and line number - function name()`>] [<`DEBUG | INFO | WARN | ERROR `>] - <` Message `>`"
+	Format of the output message will be: "`<current server timestamp> [<Filename and line number - function name()>] [<DEBUG | INFO | WARN | ERROR >] - < Message >`"
 
 	- *filename* - filename with optional relative of optional filepath - e.g. `temp/log_file.txt`
 
 - #### read_log_file(last_n_rows = 20):
-	- Return in an array the `last_n_rows` in an array in the order listed within the file.  This will include the color codes for the message
+	Return in an array the `last_n_rows` in an array in the order listed within the file.  This will include the color codes for the message
 
 	- *last_n_rows* - Number of lines to read
 
 - #### read_log_file_as_text(last_n_rows = 20):
-	- Return in an array the `last_n_rows` in an array in the order listed within the file.  This will have color codes removed
+	Return in an array the `last_n_rows` in an array in the order listed within the file.  This will have color codes removed
 
 	- *last_n_rows* - Number of lines to read
