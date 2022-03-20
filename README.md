@@ -32,8 +32,7 @@ logger.error("hello world - error")
 logger.warning("hello world - warning")
 ```
 Output will be:
-<p><span style="color:blue">022-03-20 04:47:43,911 [test_logger.py:17 - test_create_logger() ] [DEBUG]</span> hello world - debug</p>
-<p><span style="color:cyan">022-03-20 04:47:43,912 [test_logger.py:18 - test_create_logger() ] [DEBUG]</span> hello world - info</p>
+![Output for mclogger](readme/mclogger.png)
 
 #### getLogger(filename)
 Generates the log instance which can be called with .debug( message ); .info( message ); .error( message ); .info( message ) which will be displayed in color format.
