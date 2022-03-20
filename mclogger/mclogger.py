@@ -32,14 +32,14 @@ class MCLogger(object):
 
 	################################################################################################
 	# Get last n_rows from the log
-	def read_log_file(self, last_n_rows):
+	def read_log_file(self, last_n_rows = 20):
 		with open(self._filename, 'r') as file:
 			last_lines = tailer.tail(file, last_n_rows)
 		return last_lines
 	
 	################################################################################################
 	# Get last n_rows from the log
-	def read_log_file_as_text(self, last_n_rows):
+	def read_log_file_as_text(self, last_n_rows = 20):
 		last_lines = self.read_log_file(last_n_rows)
 		for index, line in enumerate(last_lines):
 			last_lines[index] = re.sub(r'\x1b\[.+?m', '', last_lines[index], flags=re.MULTILINE )
