@@ -2,7 +2,7 @@
 
 
 
-## MCLogger to log to file AND screen
+## MCLogger to log to file AND to the console
 
 ### What problem does this solve?
 A challenge for web-server applications (e.g. such as Flask) is to decipher what's going on from a long logging window.  The standard loggers are all single color console test which you have to trawl through manually one by one.
@@ -39,7 +39,8 @@ Output will be:
 - #### getLogger(filename):
 	Generates the log instance which can be called with .debug(*message*); .info(*message*); .error(*message*); .info(*message*) which will be displayed in color format.
 
-	Format of the output message will be: "`<current server timestamp> [<Filename and line number - function name()>] [<DEBUG | INFO | WARN | ERROR >] - < Message >`"
+	Format of the output message will be: 
+		"`<current server timestamp> [<Filename and line number - function name()>] [<DEBUG | INFO | WARN | ERROR >] - < Message >`"
 
 	- *filename* - filename with optional relative of optional filepath - e.g. `temp/log_file.txt`
 
