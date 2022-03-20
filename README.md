@@ -12,10 +12,10 @@ MCLogger helps to solve this by colorising the debug, info, warning, into differ
 ### How does it do this?
 MCLogger builds on the logging library and adds console color libraries to add colors to debug, info, error, warning entries
 
-DEBUG - blue
-WARNING - yellow
-ERROR - red
-INFO - cyan
+* DEBUG - blue
+* WARNING - yellow
+* ERROR - red
+* INFO - cyan
 
 ### How to use the logger?
 The logger is super easy to use.  You need to simply create an instance and add a file/filepath for the logfile
