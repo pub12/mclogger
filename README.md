@@ -17,6 +17,20 @@ MCLogger builds on the logging library and adds console color libraries to add c
 * ERROR - red
 * INFO - cyan
 
+### How to install?
+MCLogger is avaialble through PyPi and you may use pip:
+
+```
+	pip install mclogger
+```
+
+Or, through git:
+```
+	git clone https://github.com/pub12/mclogger.git
+```
+
+
+
 ### How to use the logger?
 The logger is super easy to use.  You need to simply create an instance and add a file/filepath for the logfile
 
@@ -32,7 +46,7 @@ logger.error("hello world - error")
 logger.warning("hello world - warning")
 ```
 Output will be:
-![Output for mclogger](readme/mclogger.png)
+![Output for mclogger](https://github.com/pub12/mclogger/blob/master/readme/mclogger.png)
 
 ### Class Methods overview
 
