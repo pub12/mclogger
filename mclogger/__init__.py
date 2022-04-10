@@ -1,1 +1,1 @@
- 
+from .mclogger import MCLogger

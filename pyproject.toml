@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mclogger"
-version = "1.0.1"
+version = "1.0.5"
 description = "MCLogger that shows log records on screen in color and in a log file"
 authors = ["Pubs Abayasiri <pubudu.abayasiri@gmail.com>"]
 license = "MIT"
