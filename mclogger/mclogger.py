@@ -2,13 +2,14 @@ import logging, sys, re
 from colorama import Fore, Style
 import coloredlogs, tailer
 from functools import wraps
+import inspect
 
 # print('hello worlds 2')
 
 ########################################################################################################################
 # Create colors for the output
 class MyFormatter(logging.Formatter):
-    prefix = "%(asctime)s [%(filename)s:%(lineno)s - %(funcName)5s() ] [%(levelname)-5.5s] "
+    prefix = "%(asctime)s "
     FORMATS = {
         logging.ERROR: Fore.RED + prefix + Style.RESET_ALL + "%(message)s", 
         logging.DEBUG: Fore.BLUE + prefix + Style.RESET_ALL + "%(message)s",
@@ -18,7 +19,7 @@ class MyFormatter(logging.Formatter):
 
     def format(self, record):
         log_fmt = self.FORMATS.get(record.levelno, self.FORMATS['DEFAULT'])
-        formatter = logging.Formatter(log_fmt)
+        formatter = logging.Formatter(log_fmt,  datefmt='%Y-%m-%d,%H:%M:%S')
         return formatter.format(record) 
 
 
@@ -33,7 +34,7 @@ class MCLogger(object):
 	def __init__(self, out_filename):
 		self._filename = out_filename
 
-		self._setupLogger()
+		self.log_inst = self._setupLogger()
 
 	################################################################################################
 	# Get last n_rows from the log
@@ -53,20 +54,21 @@ class MCLogger(object):
 	################################################################################################
 	# Configure logger
 	def _setupLogger(self):
-		self.log_inst = logging.getLogger(__name__)
+		log_inst = logging.getLogger(__name__)
 
 		custom_formatter = MyFormatter()
-		self.log_inst.setLevel(logging.DEBUG)
+		log_inst.setLevel(logging.DEBUG)
 
 		fileHandler = logging.FileHandler( self._filename)
 		fileHandler.setFormatter(custom_formatter)
-		self.log_inst.addHandler(fileHandler)
+		log_inst.addHandler(fileHandler)
 
 		consoleHandler = logging.StreamHandler(sys.stdout)
 		consoleHandler.setFormatter(custom_formatter)
-		self.log_inst.addHandler(consoleHandler)
-		self.log_inst.read_log_file_as_text = self.read_log_file_as_text
-		self.log_inst.read_log_file  = self.read_log_file  
+		log_inst.addHandler(consoleHandler)
+		log_inst.read_log_file_as_text = self.read_log_file_as_text
+		log_inst.read_log_file  = self.read_log_file  
+		return log_inst
 
 		# return self.log_inst
 
@@ -79,7 +81,9 @@ class MCLogger(object):
 
 	def logfunc_loc(self, original_func): 
 		def wrapper_func( *args, **kwargs):	 
-			self.debug( f"{Fore.GREEN}>>{original_func.__module__}::{original_func.__qualname__} {Style.RESET_ALL} ARGS[{args}] KWARGS[{kwargs}]")
+			# self.debug( f"{Fore.GREEN}>>{original_func.__module__}::{original_func.__qualname__} {Style.RESET_ALL} ARGS[{args}] KWARGS[{kwargs}]")
+			# breakpoint()
+			self.debug_func( original_func.__module__, original_func.__qualname__.split('<')[0] , f"ARGS[{args}] KWARGS[{kwargs}]")	
 			return original_func(*args, **kwargs)	 
 		return wrapper_func
 
@@ -88,14 +92,37 @@ class MCLogger(object):
 		def main_decorator(  original_func): 
 			def wrapper_func( *args, **kwargs):	 
 				log_ref = getattr( args[0],logger_attrib_name, None )
-				if log_ref: log_ref.debug( f"{Fore.GREEN}>>{original_func.__module__}::{original_func.__qualname__} {Style.RESET_ALL}	 ARGS[{args}] KWARGS[{kwargs}]")	
+				
+				if log_ref: log_ref.debug_func( original_func.__module__, original_func.__qualname__, f"ARGS[{args}] KWARGS[{kwargs}]")	
+				
 				return original_func(*args, **kwargs)	 
 			return wrapper_func
 		return main_decorator
 
+	def debug_func(self, module, func_name, message):
+		color = Fore.BLUE
+		msg_type = "FUNC CALL"
+		# breakpoint()
+		self.log_inst.debug( f"{color}{ module }::{  func_name } {color}[{inspect.stack()[1].lineno}] {Fore.GREEN}[{msg_type}]:{Style.RESET_ALL}{message}" )
 
-	def debug(self, message): self.log_inst.debug(message)
-	def error(self, message): self.log_inst.error(message)
-	def warning(self, message): self.log_inst.warning(message)
-	def info(self, message): self.log_inst.info(message)
+	def debug(self, message): 
+		color = Fore.BLUE
+		msg_type = "DEBUG"
+		# breakpoint()
+		self.log_inst.debug( f"{color}{inspect.stack()[1].filename.split('/')[-1]}::{inspect.stack()[1].function}[{inspect.stack()[1].lineno}] [{msg_type}]:{Style.RESET_ALL}{message}" )
+	
+	def error(self, message): 
+		color = Fore.RED
+		msg_type = "ERROR"
+		self.log_inst.debug( f"{color}{inspect.stack()[1].filename.split('/')[-1]}::{inspect.stack()[1].function}[{inspect.stack()[1].lineno}] [{msg_type}]:{Style.RESET_ALL}{message}" )
+	
+	def warning(self, message):
+		color = Fore.YELLOW
+		msg_type = "WARNING"
+		self.log_inst.debug( f"{color}{inspect.stack()[1].filename.split('/')[-1]}::{inspect.stack()[1].function}[{inspect.stack()[1].lineno}] [{msg_type}]:{Style.RESET_ALL}{message}" )
+	
+	def info(self, message): 
+		color = Fore.CYAN
+		msg_type = "INFO"
+		self.log_inst.debug( f"{color}{inspect.stack()[1].filename.split('/')[-1]}::{inspect.stack()[1].function}[{inspect.stack()[1].lineno}] [{msg_type}]:{Style.RESET_ALL}{message}" )
 	
