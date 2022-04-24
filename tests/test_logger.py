@@ -36,16 +36,18 @@ class TestLogger(unittest.TestCase):
 	# @MCLogger.logfunc_cls()
 	@MCLogger.logfunc_cls('logger')
 	def test_log_func(self):
-		print("AA")
+		# print("AA")
 		# self.logger = self.create_logger()
 		# breakpoint()
 		@logger.logfunc_loc
 		def func_name(arg1, arg2):
 			print( f"add: {arg1 + arg2}"  )
 
-		print("start")
+		# print("start")
 		func_name(10,15)
-		print("end")
+		# print("end")
+
+	
 
 if __name__ == '__main__':
     unittest.main()

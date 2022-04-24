@@ -1,6 +1,6 @@
-[34m2022-04-18,15:39:23 [0m[34mtest_logger.py::test_create_logger[28] [DEBUG]:[0mhello world - debug
-[34m2022-04-18,15:39:23 [0m[36mtest_logger.py::test_create_logger[29] [INFO]:[0mhello world - info
-[34m2022-04-18,15:39:23 [0m[31mtest_logger.py::test_create_logger[30] [ERROR]:[0mhello world - error
-[34m2022-04-18,15:39:23 [0m[33mtest_logger.py::test_create_logger[31] [WARNING]:[0mhello world - warning
-[34m2022-04-18,15:39:23 [0m[34mtest_logger::TestLogger.test_log_func [34m[96] [32m[FUNC CALL]:[0mARGS[(<test_logger.TestLogger testMethod=test_log_func>,)] KWARGS[{}]
-[34m2022-04-18,15:39:23 [0m[34mtest_logger::TestLogger.test_log_func. [34m[86] [32m[FUNC CALL]:[0mARGS[(10, 15)] KWARGS[{}]
+[34m2022-04-24,15:48:48 [0m[34mtest_logger.py::test_create_logger[28] [DEBUG]:[0mhello world - debug
+[34m2022-04-24,15:48:48 [0m[36mtest_logger.py::test_create_logger[29] [INFO]:[0mhello world - info
+[34m2022-04-24,15:48:48 [0m[31mtest_logger.py::test_create_logger[30] [ERROR]:[0mhello world - error
+[34m2022-04-24,15:48:48 [0m[33mtest_logger.py::test_create_logger[31] [WARNING]:[0mhello world - warning
+[34m2022-04-24,15:48:48 [0m?[34mtest_logger.py::TestLogger.test_log_func [34m[107] [32m[FUNC CALL]:[0mARGS[(<test_logger.TestLogger testMethod=test_log_func>,)] KWARGS[{}]
+[34m2022-04-24,15:48:48 [0m![34mtest_logger.py::func_name [34m[47] [32m[FUNC CALL]:[0mARGS[(10, 15)] KWARGS[{}]

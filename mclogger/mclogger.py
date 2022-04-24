@@ -81,9 +81,13 @@ class MCLogger(object):
 
 	def logfunc_loc(self, original_func): 
 		def wrapper_func( *args, **kwargs):	 
-			# self.debug( f"{Fore.GREEN}>>{original_func.__module__}::{original_func.__qualname__} {Style.RESET_ALL} ARGS[{args}] KWARGS[{kwargs}]")
-			# breakpoint()
-			self.debug_func( original_func.__module__, original_func.__qualname__.split('<')[0] , f"ARGS[{args}] KWARGS[{kwargs}]")	
+			color = Fore.BLUE
+			msg_type = "FUNC CALL"
+			module = original_func.__module__
+			func_name = original_func.__qualname__.split('.')[-1]
+			message = f"ARGS[{args}] KWARGS[{kwargs}]"
+			self.log_inst.debug( f"!{color}{ module }.py::{  func_name } {color}[{inspect.stack()[1].lineno}] {Fore.GREEN}[{msg_type}]:{Style.RESET_ALL}{message}" )
+			
 			return original_func(*args, **kwargs)	 
 		return wrapper_func
 
@@ -93,17 +97,23 @@ class MCLogger(object):
 			def wrapper_func( *args, **kwargs):	 
 				log_ref = getattr( args[0],logger_attrib_name, None )
 				
-				if log_ref: log_ref.debug_func( original_func.__module__, original_func.__qualname__, f"ARGS[{args}] KWARGS[{kwargs}]")	
+				if log_ref: 
+					color = Fore.BLUE
+					msg_type = "FUNC CALL"
+					module = original_func.__module__
+					func_name = original_func.__qualname__
+					message = f"ARGS[{args}] KWARGS[{kwargs}]"
+					log_ref.log_inst.debug( f"?{color}{ module }.py::{  func_name } {color}[{inspect.stack()[0].lineno}] {Fore.GREEN}[{msg_type}]:{Style.RESET_ALL}{message}" )
 				
 				return original_func(*args, **kwargs)	 
 			return wrapper_func
 		return main_decorator
-
+	
 	def debug_func(self, module, func_name, message):
 		color = Fore.BLUE
 		msg_type = "FUNC CALL"
 		# breakpoint()
-		self.log_inst.debug( f"{color}{ module }::{  func_name } {color}[{inspect.stack()[1].lineno}] {Fore.GREEN}[{msg_type}]:{Style.RESET_ALL}{message}" )
+		self.log_inst.debug( f"{color}{ module }::{  func_name } {color}[{inspect.stack()[2].lineno}] {Fore.GREEN}[{msg_type}]:{Style.RESET_ALL}{message}" )
 
 	def debug(self, message): 
 		color = Fore.BLUE
