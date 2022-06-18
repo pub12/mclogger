@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mclogger"
-version = "1.0.7"
+version = "1.0.8"
 description = "MCLogger that shows log records on screen in color and in a log file"
 authors = ["Pubs Abayasiri <pubudu.abayasiri@gmail.com>"]
 license = "MIT"
@@ -11,7 +11,7 @@ packages = [{include = "mclogger"}]
 
 [tool.poetry.dependencies]
 python = "^3"
-colorama= "^0.4.4"
+colorama= "^0.4.3"
 coloredlogs= "^15.0"
 tailer= "^0.4.1"
 

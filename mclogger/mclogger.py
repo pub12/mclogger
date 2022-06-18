@@ -9,18 +9,18 @@ import inspect
 ########################################################################################################################
 # Create colors for the output
 class MyFormatter(logging.Formatter):
-    prefix = "%(asctime)s "
-    FORMATS = {
-        logging.ERROR: Fore.RED + prefix + Style.RESET_ALL + "%(message)s", 
-        logging.DEBUG: Fore.BLUE + prefix + Style.RESET_ALL + "%(message)s",
-        logging.WARNING: Fore.YELLOW + prefix + Style.RESET_ALL + "%(message)s",
-        "DEFAULT": Fore.CYAN + prefix + Style.RESET_ALL + "%(message)s",
-    }
+	prefix = "%(asctime)s "
+	FORMATS = {
+		logging.ERROR: Fore.RED + prefix + Style.RESET_ALL + "%(message)s", 
+		logging.DEBUG: Fore.BLUE + prefix + Style.RESET_ALL + "%(message)s",
+		logging.WARNING: Fore.YELLOW + prefix + Style.RESET_ALL + "%(message)s",
+		"DEFAULT": Fore.CYAN + prefix + Style.RESET_ALL + "%(message)s",
+	}
 
-    def format(self, record):
-        log_fmt = self.FORMATS.get(record.levelno, self.FORMATS['DEFAULT'])
-        formatter = logging.Formatter(log_fmt,  datefmt='%Y-%m-%d,%H:%M:%S')
-        return formatter.format(record) 
+	def format(self, record):
+		log_fmt = self.FORMATS.get(record.levelno, self.FORMATS['DEFAULT'])
+		formatter = logging.Formatter(log_fmt,  datefmt='%Y-%m-%d,%H:%M:%S')
+		return formatter.format(record) 
 
 
 ########################################################################################################################
@@ -80,7 +80,9 @@ class MCLogger(object):
 	# 	return self.log_inst	 	
 
 	def logfunc_loc(self, original_func): 
+		# breakpoint()
 		def wrapper_func( *args, **kwargs):	 
+			
 			color = Fore.BLUE
 			msg_type = "FUNC CALL"
 			module = original_func.__module__
@@ -93,7 +95,9 @@ class MCLogger(object):
 
 	@classmethod
 	def logfunc_cls(cls, logger_attrib_name ):
+		call_line_no = inspect.stack()[1].lineno
 		def main_decorator(  original_func): 
+
 			def wrapper_func( *args, **kwargs):	 
 				log_ref = getattr( args[0],logger_attrib_name, None )
 				
@@ -103,7 +107,8 @@ class MCLogger(object):
 					module = original_func.__module__
 					func_name = original_func.__qualname__
 					message = f"ARGS[{args}] KWARGS[{kwargs}]"
-					log_ref.log_inst.debug( f"?{color}{ module }.py::{  func_name } {color}[{inspect.stack()[0].lineno}] {Fore.GREEN}[{msg_type}]:{Style.RESET_ALL}{message}" )
+					# breakpoint()
+					log_ref.log_inst.debug( f"?{color}{ module }.py::{  func_name } {color}[{call_line_no}] {Fore.GREEN}[{msg_type}]:{Style.RESET_ALL}{message}" )
 				
 				return original_func(*args, **kwargs)	 
 			return wrapper_func
@@ -112,27 +117,23 @@ class MCLogger(object):
 	def debug_func(self, module, func_name, message):
 		color = Fore.BLUE
 		msg_type = "FUNC CALL"
-		# breakpoint()
 		self.log_inst.debug( f"{color}{ module }::{  func_name } {color}[{inspect.stack()[2].lineno}] {Fore.GREEN}[{msg_type}]:{Style.RESET_ALL}{message}" )
 
-	def debug(self, message): 
-		color = Fore.BLUE
-		msg_type = "DEBUG"
-		# breakpoint()
-		self.log_inst.debug( f"{color}{inspect.stack()[1].filename.split('/')[-1]}::{inspect.stack()[1].function}[{inspect.stack()[1].lineno}] [{msg_type}]:{Style.RESET_ALL}{message}" )
+	def get_logmessage_prefix( self, callee, msg_type):
+		return f"{callee.filename.split('/')[-1]}::{ callee.function}[{ callee.lineno}] [{msg_type}]"
+
+	def debug(self, message, stack_level=1): 
+		prefix = self.get_logmessage_prefix( inspect.stack()[ stack_level ], "DEBUG" )
+		self.log_inst.debug( f"{ Fore.BLUE }{prefix}:{Style.RESET_ALL}{message}" )
 	
-	def error(self, message): 
-		color = Fore.RED
-		msg_type = "ERROR"
-		self.log_inst.debug( f"{color}{inspect.stack()[1].filename.split('/')[-1]}::{inspect.stack()[1].function}[{inspect.stack()[1].lineno}] [{msg_type}]:{Style.RESET_ALL}{message}" )
-	
-	def warning(self, message):
-		color = Fore.YELLOW
-		msg_type = "WARNING"
-		self.log_inst.debug( f"{color}{inspect.stack()[1].filename.split('/')[-1]}::{inspect.stack()[1].function}[{inspect.stack()[1].lineno}] [{msg_type}]:{Style.RESET_ALL}{message}" )
-	
-	def info(self, message): 
-		color = Fore.CYAN
-		msg_type = "INFO"
-		self.log_inst.debug( f"{color}{inspect.stack()[1].filename.split('/')[-1]}::{inspect.stack()[1].function}[{inspect.stack()[1].lineno}] [{msg_type}]:{Style.RESET_ALL}{message}" )
-	
+	def error(self, message, stack_level=1): 
+		prefix = self.get_logmessage_prefix( inspect.stack()[ stack_level ], "ERROR" )
+		self.log_inst.debug( f"{ Fore.RED }{prefix}:{Style.RESET_ALL}{message}" )
+
+	def warning(self, message, stack_level=1): 
+		prefix = self.get_logmessage_prefix( inspect.stack()[ stack_level ], "WARNING" )
+		self.log_inst.debug( f"{ Fore.YELLOW }{prefix}:{Style.RESET_ALL}{message}" )
+
+	def info(self, message, stack_level=1): 
+		prefix = self.get_logmessage_prefix( inspect.stack()[ stack_level ], "INFO" )
+		self.log_inst.debug( f"{ Fore.CYAN }{prefix}:{Style.RESET_ALL}{message}" )
